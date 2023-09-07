@@ -3,6 +3,7 @@ require "sinatra/content_for"
 require "tilt/erubis"
 
 require_relative "database_persistence"
+require_relative "mongo"
 
 configure do
   enable :sessions
@@ -69,6 +70,17 @@ end
 
 get "/" do
   redirect "/lists"
+end
+
+# MongoDB route
+get "/names" do
+  Name.all.to_json
+end
+
+# MongoDB route
+post "/names" do
+  name = Name.create!(params[:post])
+  name.to_json
 end
 
 # View list of lists
